@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Flask Chat</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    </head>
+<body>
+    <div class="page">
+        <h1 class="main-headline">Flask Chat</h1>
+        <div id="status" class="red">Disconnected</div>
+        <div id="data">
+            {% if not chat_buffer %}
+            <div class="message no-messages-yet">
+                <p>no chat messages yet</p>
+            </div>
+            {% endif %}
+            {% for message in chat_buffer %}
+            <div class="message">
+                <p>{{ message }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        <form id="input">
+            <input style="width:100%;" placeholder="enter your message here"/>
+        </form>
+    </div>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script type="text/javascript" src="http://localhost:8080/application.js"></script>
+<script type=text/javascript>
+    var jug = new Juggernaut();
+    var $data = $('#data')
+    var no_messages = $('.no-messages-yet')
+    jug.subscribe('chat', function(data) {
+        no_messages.hide();
+        $data.append('<div class="message"><p> ' + data + '</p></div>');
+    });
+
+    var $status = $('#status')
+    jug.on('connect', function(){
+        $status.removeClass('red');
+        $status.text('Connected');
+        $status.addClass('green');
+        $.post('/_on_connect', function(data) {
+            jug.meta = {user_id: data['user_id']};
+        });
+    });
+
+    jug.on('disconnect', function(){
+        $.post('/_on_disconnect');
+    });
+
+    var $form = $('form')
+    var $input = $('input')
+    $form.submit(function() {
+        $.post('/_chat', {'message': $input.val(), 'user_id': jug.meta['user_id']})
+        $input.val('');
+        return false;
+    });
+</script>
+</body>
+</html>
