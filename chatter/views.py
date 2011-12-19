@@ -1,5 +1,5 @@
 from chatter import app
-from flask import request, render_template, jsonify
+from flask import request, render_template, jsonify, escape
 from juggernaut import Juggernaut
 
 jug = Juggernaut()
@@ -17,7 +17,7 @@ def index():
 def _chat():
     user = request.form.get('user_id')
     message = request.form.get('message')
-    message = user + ': ' + message
+    message = user + ': ' + escape(message)
     chat_buffer.append(message)
     jug.publish('chat', message)
     return jsonify(result='OK')

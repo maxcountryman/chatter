@@ -25,10 +25,11 @@ h1, h2, h3, h4 {
     box-shadow:0 0 5px #ccc;
     -moz-box-shadow:0 0 5px #ccc;
     -webkit-box-shadow:0 0 5px #ccc;
+
 }
 
 .message {
-    color: #424242;
+    width: 100%;
     border-bottom: 1px solid #ccc;
 }
 
@@ -36,8 +37,20 @@ h1, h2, h3, h4 {
     border-bottom: none;
 }
 
+.message p {
+    overflow: hidden;
+    white-space: pre-wrap; 
+}
+
 #status {
     text-align: right;
+}
+
+#data {
+    height: 200px;
+    overflow-y: auto;
+    padding: 20px;
+    margin: 20px;
 }
 
 .green { color: #4ca35b; }

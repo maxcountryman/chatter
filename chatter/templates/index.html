@@ -17,7 +17,7 @@
             {% endif %}
             {% for message in chat_buffer %}
             <div class="message">
-                <p>{{ message }}</p>
+                <p style="width:100%">{{ message }}</p>
             </div>
             {% endfor %}
         </div>
@@ -34,6 +34,7 @@
     jug.subscribe('chat', function(data) {
         no_messages.hide();
         $data.append('<div class="message"><p> ' + data + '</p></div>');
+        $data.scrollTop($data[0].scrollHeight);
     });
 
     var $status = $('#status')
@@ -57,6 +58,9 @@
         $input.val('');
         return false;
     });
+
+    // always align the scrollbar to the bottom of the data div
+    $data.scrollTop($data[0].scrollHeight);
 </script>
 </body>
 </html>
