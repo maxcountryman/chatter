@@ -33,7 +33,7 @@
     var no_messages = $('.no-messages-yet')
     jug.subscribe('chat', function(data) {
         no_messages.hide();
-        $data.append('<div class="message"><p> ' + data + '</p></div>');
+        $data.append('<div class="message"><p style="width:100%"> ' + data + '</p></div>');
         $data.scrollTop($data[0].scrollHeight);
     });
 
